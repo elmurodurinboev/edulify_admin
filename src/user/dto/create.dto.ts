@@ -12,4 +12,7 @@ export class CreateDto {
     @IsNotEmpty({ message: "password to'ldirilishi shart" })
     @IsString({ message: "password string tipida bo'lishi kerak" })
     password: string
+
+    // @IsString({ message: "password string tipida bo'lishi kerak" })
+    // role: 'ADMIN' | 'MANAGER'
 }

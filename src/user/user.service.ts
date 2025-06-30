@@ -3,14 +3,12 @@ import { CreateDto } from './dto/create.dto';
 import { PrismaService } from 'src/common/services/prisma.service';
 import * as bcrypt from "bcrypt"
 import { Prisma } from '@prisma/client';
-import { ErrorNotifierService } from 'src/common/services/error-notifier.service';
 import { UpdateDto } from './dto/update.dto';
 
 @Injectable()
 export class UserService {
     constructor(
         private prismaService: PrismaService,
-        private readonly errorNotifier: ErrorNotifierService
     ) { }
     async create(createDto: CreateDto) {
         try {
@@ -89,7 +87,8 @@ export class UserService {
     async getById(id: number) {
         try {
             const user = await this.prismaService.user.findUnique({
-                where: { id }, select: {
+                where: { id },
+                select: {
                     id: true,
                     name: true,
                     username: true,

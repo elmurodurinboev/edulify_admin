@@ -19,11 +19,30 @@ enum Role {
 }
 
 model User {
-  id        Int      @unique @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   role      Role     @default(MANAGER)
   name      String
   username  String   @unique
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Status {
+  active
+  blocked
+  deleted
+}
+
+model Center {
+  id         Int      @id @default(autoincrement())
+  name       String
+  status     Status   @default(active)
+  prefix     String   @unique
+  ownerName  String
+  ownerPhone String
+  ownerEmail String
+  ownerPinfl String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

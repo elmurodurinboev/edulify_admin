@@ -4,12 +4,14 @@ import { CreateDto } from './dto/create.dto';
 import { UpdateDto } from './dto/update.dto';
 import { Roles } from 'src/role/role.decorator';
 import { Role } from 'src/role/role.enum';
+import { Public } from 'src/common/public.decorator';
 
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) { }
 
-    @Roles(Role.Admin)
+    @Public()
+    // @Roles(Role.Admin)
     @Post()
     async create(@Body() createDto: CreateDto) {
         return this.userService.create(createDto)
