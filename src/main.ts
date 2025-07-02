@@ -9,10 +9,13 @@ async function bootstrap() {
   app.setGlobalPrefix("api/v1")
   const notifier = app.get(ErrorNotifierService);
   app.useGlobalFilters(new AllExceptionsFilter(notifier));
-   app.enableCors({
-    origin: '*',
+  app.enableCors({
+    origin: [
+      'http://localhost:5173',
+      'https://admin.devboy.uz'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', "Accept-Language"],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
