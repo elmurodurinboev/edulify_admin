@@ -1,0 +1,36 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+
+        uses: actions/checkout@v2
+
+      - name: Deployment
+
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: 103.71.20.148
+
+          username: root
+
+          password: 4J038fhME7qK
+
+          script: |
+            cd /var/dev/edulify_admin
+            git restore .
+            git pull origin master
+            sudo su
+            npm i
+            npm run build
+            pm2 restart 0
