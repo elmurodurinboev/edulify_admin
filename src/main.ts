@@ -9,23 +9,26 @@ async function bootstrap() {
   app.setGlobalPrefix("api/v1")
   const notifier = app.get(ErrorNotifierService);
   app.useGlobalFilters(new AllExceptionsFilter(notifier));
-app.useGlobalPipes(new ValidationPipe({
-  whitelist: true,
-  forbidNonWhitelisted: true,
-  transform: true,
-  exceptionFactory: (errors) => {
-    const formattedErrors = errors.map(err => ({
-      field: err.property,
-      errors: Object.values(err.constraints ?? {})
-    }));
+  app.enableCors({
+    origin: 'http://localhost:5173'
+  })
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+    exceptionFactory: (errors) => {
+      const formattedErrors = errors.map(err => ({
+        field: err.property,
+        errors: Object.values(err.constraints ?? {})
+      }));
 
-    return new BadRequestException({
-      success: false,
-      statusCode: 422,
-      errors: formattedErrors,
-    });
-  },
-}));
+      return new BadRequestException({
+        success: false,
+        statusCode: 422,
+        errors: formattedErrors,
+      });
+    },
+  }));
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
