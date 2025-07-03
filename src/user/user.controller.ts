@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateDto } from './dto/create.dto';
 import { UpdateDto } from './dto/update.dto';
@@ -10,8 +10,8 @@ import { Public } from 'src/common/public.decorator';
 export class UserController {
     constructor(private userService: UserService) { }
 
-    @Public()
-    // @Roles(Role.Admin)
+    // @Public()
+    @Roles(Role.Admin)
     @Post()
     async create(@Body() createDto: CreateDto) {
         return this.userService.create(createDto)
@@ -19,8 +19,8 @@ export class UserController {
 
     @Roles(Role.Admin)
     @Get()
-    async getAll() {
-        return this.userService.getAll()
+    async getAll(@Query("search") search?: string) {
+        return this.userService.getAll(search)
     }
 
     @Roles(Role.Admin)

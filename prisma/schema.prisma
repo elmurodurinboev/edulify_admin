@@ -21,11 +21,13 @@ enum Role {
 model User {
   id        Int      @id @default(autoincrement())
   role      Role     @default(MANAGER)
-  name      String
+  name      String   @db.VarChar(50)
   username  String   @unique
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([name])
 }
 
 enum Status {
@@ -45,4 +47,9 @@ model Center {
   ownerPinfl String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@index([name])
+  @@index([prefix])
+  @@index([ownerName])
+  @@index([status])
 }
