@@ -30,14 +30,14 @@ export class CenterController {
     }
 
     @Roles(Role.Admin, Role.Manager)
-    @Patch("id")
+    @Patch(":id")
     async update(@Param("id") id: string, @Body() updateDto: UpdateDto) {
         return this.centerService.update(Number(id), updateDto)
     }
 
     @Roles(Role.Admin)
     @HttpCode(204)
-    @Delete("id")
+    @Delete(":id")
     async delete(@Param("id") id: string) {
         return this.centerService.delete(Number(id))
     }
