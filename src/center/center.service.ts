@@ -9,9 +9,28 @@ export class CenterService {
         private prismaService: PrismaService,
     ) { }
 
-    async getAll() {
+    async getAll(search?: string, status?: 'active' | 'blocked' | 'deleted') {
         try {
-            const data = await this.prismaService.center.findMany({})
+            const data = await this.prismaService.center.findMany({
+                where: {
+                    ...(search &&
+                    {
+                        OR: [
+                            {
+                                name: { contains: search, mode: 'insensitive' }
+                            },
+                            {
+                                prefix: { contains: search, mode: 'insensitive' }
+                            },
+                            {
+                                ownerName: { contains: search, mode: 'insensitive' }
+                            }
+                        ]
+                    }
+                    ),
+                    ...(status && {status})
+                }
+            })
             return {
                 success: true,
                 data
